@@ -10,7 +10,7 @@ public class OrinarVikingo implements IOrinar {
 
         Random r = new Random();
 
-        // Vikingos tienen doble posibilidad de orinar
+        // Vikingos tienen doble posibilidad de orinar al principio
         return r.nextInt(cantidad) < 50 || r.nextInt(cantidad) < 50;
     }
 }
