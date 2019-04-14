@@ -1,6 +1,7 @@
 import Behaviors.BeberVikingo;
 import Behaviors.OrinarEspartano;
 import Behaviors.OrinarVikingo;
+import Database.JDBC;
 import Models.Espartano;
 import Models.Humano;
 import Models.Vikingo;
@@ -80,6 +81,8 @@ public class Main {
 
         System.out.println( String.format( "\nGanador Final %s: %s" , ganadorGeneral.getNombre(), ganadorGeneral.getBebidaEnElCuerpo() ));
 
+        JDBC.getInstance().insertResults(ganadorGeneral);
+        JDBC.getInstance().getResults();
 
     }
 
@@ -135,9 +138,6 @@ public class Main {
     }
 
 
-
-
-
     private static List<Humano> Ordenar( List<Humano> lista, boolean par)
     {
         if(par )
@@ -158,7 +158,6 @@ public class Main {
         return lista;
     }
 
-
     private static List<Humano> CrearVikingos( )
     {
         return Arrays.asList(
@@ -168,6 +167,7 @@ public class Main {
                 new Vikingo("Niels",40, 75,30)
         );
     }
+
     private static List<Humano> CrearEspartanos( )
     {
         return  Arrays.asList(
