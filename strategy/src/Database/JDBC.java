@@ -8,7 +8,9 @@ public class JDBC {
 
     // JDBC driver name and database URL
     static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://localhost:3306/TorneoFrescas?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+    static final String DB_Name = "TorneoFrescas";
+    static final String DB_Server = "localhost:3306";
+    static final String DB_URL = "jdbc:mysql://" + DB_Server +"/" + DB_Name +"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 
     //  Database credentials
     static final String USER = "root";
@@ -30,6 +32,8 @@ public class JDBC {
     }
 
     //Public
+
+
 
     public void getResults() {
         Connection conn = null;
