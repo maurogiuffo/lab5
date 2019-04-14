@@ -39,8 +39,9 @@ public class Humano {
         return BebidaEnElCuerpo;
     }
 
-    public void setBebidaEnElCuerpo(int bebidaEnElCuerpo) {
-        BebidaEnElCuerpo = bebidaEnElCuerpo;
+    public void preparar() {
+        BebidaEnElCuerpo = 0;
+        Orino = false;
     }
 
     public boolean getOrino() {

@@ -3,6 +3,7 @@ import Behaviors.OrinarEspartano;
 import Database.JDBC;
 import Models.Espartano;
 import Models.Humano;
+import Models.Mestizo;
 import Models.Vikingo;
 
 import java.util.Arrays;
@@ -38,7 +39,7 @@ public class Main {
 
         ganadorGeneral = torneoFrescas.JugarEliminatoria(vikingos,espartanos,par);
 
-        Humano dueñoTaberna = new Humano("Dueño Taberna Copenhage", 50, 120, new BeberVikingo(), new OrinarEspartano());
+        Humano dueñoTaberna = new Mestizo("Dueño Taberna Copenhage", 50, 120);
 
         ganadorGeneral = torneoFrescas.JugarFinal(ganadorGeneral,dueñoTaberna);
 

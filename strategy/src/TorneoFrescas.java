@@ -72,8 +72,8 @@ public class TorneoFrescas {
     {
         System.out.println( String.format( " \nEnfrentamiento Final: %s vs %s \n",h1.getNombre(),h2.getNombre() ));
 
-        h1.setBebidaEnElCuerpo(0);
-        h2.setBebidaEnElCuerpo(0);
+        h1.preparar();
+        h2.preparar();
         Humano ganador  = Enfrentar(h1,h2);
 
         System.out.println( String.format( "\nGanador Final %s: %s" , ganador.getNombre(), ganador.getBebidaEnElCuerpo() ));
@@ -84,8 +84,8 @@ public class TorneoFrescas {
     //private
     private Humano Enfrentar(Humano h1,Humano h2)
     {
-        h1.setBebidaEnElCuerpo(0);
-        h2.setBebidaEnElCuerpo(0);
+        h1.preparar();
+        h2.preparar();
 
         boolean finalizado= false;
         int cantidadATomar =50;
