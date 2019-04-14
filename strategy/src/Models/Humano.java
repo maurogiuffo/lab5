@@ -4,28 +4,67 @@ import Interfaces.IBeber;
 import Interfaces.IOrinar;
 
 
-public abstract class Humano {
-    private String _nombre;
-    private int _edad;
+public class Humano {
 
-    private IBeber _ibeber;
-    private IOrinar _iorinar;
+    private String Nombre;
+    private int Edad;
+    private int Peso;
 
-    public void setBeber(IBeber beber){
-        _ibeber = beber;
+    private IBeber iBeber;
+    private IOrinar iOrinar;
+
+    private int BebidaEnElCuerpo;
+    private boolean Orino;
+
+    public Humano(String nombre, int edad, int peso, IBeber beber, IOrinar orinar) {
+        Nombre = nombre;
+        Edad = edad;
+        Peso = peso;
+        iBeber = beber;
+        iOrinar = orinar;
+        BebidaEnElCuerpo = 0;
+        Orino = false;
     }
 
-    public void setOrinar(IOrinar orinar){
-        _iorinar = orinar;
+
+    public String getNombre() {
+        return Nombre;
     }
+
+    public int getEdad() { return Edad;}
+
+    public int getPeso() {  return Peso; }
+
+    public int getBebidaEnElCuerpo() {
+        return BebidaEnElCuerpo;
+    }
+
+    public void setBebidaEnElCuerpo(int bebidaEnElCuerpo) {
+        BebidaEnElCuerpo = bebidaEnElCuerpo;
+    }
+
+    public boolean getOrino() {
+        return Orino;
+    }
+
+
+    public void setBeber(IBeber beber) {
+        iBeber = beber;
+    }
+
+    public void setOrinar(IOrinar orinar) {
+        iOrinar = orinar;
+    }
+
 
     public void Beber(int cantidad)
     {
-        _ibeber.Beber(cantidad);
+        BebidaEnElCuerpo += iBeber.Beber(cantidad );
     }
 
     public void Orinar(int cantidad)
     {
-        _iorinar.Orinar(cantidad);
+        if(!Orino)
+            Orino = iOrinar.Orinar(cantidad);
     }
 }

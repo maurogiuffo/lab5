@@ -1,5 +1,5 @@
 package Interfaces;
 
 public interface  IOrinar {
-    public void Orinar(int cantidad);
+    public boolean Orinar(int cantidad);
 }
