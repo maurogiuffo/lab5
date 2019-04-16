@@ -87,14 +87,16 @@ public class JDBC {
 
     public void insertResults(Humano ganador) {
         Connection conn = null;
-        Statement stmt = null;
+        PreparedStatement stmt = null;
         try{
             Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(DB_URL,USER,PASS);
-            stmt = conn.createStatement();
-            String sql = String.format("INSERT INTO resultados(nombre_ganador,bebida_en_cuerpo) " +
-                    "VALUES ( '%s', '%s')", ganador.getNombre(),ganador.getBebidaEnElCuerpo());
-            stmt.executeUpdate(sql);
+            stmt = conn.prepareStatement("INSERT INTO resultados(nombre_ganador,bebida_en_cuerpo) " +
+                    "VALUES ( ?, ?)");
+            stmt.setString(1,ganador.getNombre());
+            stmt.setInt(2,ganador.getBebidaEnElCuerpo());
+
+            stmt.execute();
 
         }catch(SQLException se){
             //Handle errors for JDBC
