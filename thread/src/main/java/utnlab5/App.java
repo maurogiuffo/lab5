@@ -66,7 +66,7 @@ public class App
 
             }
 
-            System.out.print(String.format("\nEl Ganador fue %s con %s",ganador.getNombre(),ganador.getAciertos()));
+            System.out.print(String.format("\nEl Ganador fue %s con %s aciertos",ganador.getNombre(),ganador.getAciertos()));
 
             Database.JDBC.getInstance().insertResults(ganador.getNombre(),game.getPalabraAEncontrar());
 
