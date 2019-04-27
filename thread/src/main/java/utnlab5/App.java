@@ -1,6 +1,7 @@
 package utnlab5;
 
 import utnlab5.Models.Game;
+import utnlab5.Models.GameMaster;
 import utnlab5.Models.Player;
 
 import java.util.ArrayList;
@@ -19,10 +20,10 @@ public class App
 
         Game game = new Game( Database.JDBC.getInstance().getWord());
 
-       // Thread master = new Thread(new GameMaster());
+        Thread master = new Thread(new GameMaster(game));
 
         List<Player> playerList = Arrays.asList(
-                (new Player( "mauro",5, game )),
+                (new Player( "mauro",10, game )),
                 (new Player( "pedro",5, game )),
                 (new Player( "juan",5, game ))
         );
@@ -38,6 +39,8 @@ public class App
         {
             ThreadList.get(i).start();
         }
+
+        master.start();
 
         // espera a que finalicen todos
         try {
@@ -68,12 +71,12 @@ public class App
 
             System.out.print(String.format("\nEl Ganador fue %s con %s aciertos",ganador.getNombre(),ganador.getAciertos()));
 
-            Database.JDBC.getInstance().insertResults(ganador.getNombre(),game.getPalabraAEncontrar());
+            Database.JDBC.getInstance().insertResults(ganador.getNombre(),game.getWordToFind());
 
         }
         else
         {
-            System.out.print(String.format("\nTodos los jugadores perdieron. La palabra era %s",game.getPalabraAEncontrar()));
+            System.out.print(String.format("\nTodos los jugadores perdieron. La palabra era %s",game.getWordToFind()));
 
         }
 

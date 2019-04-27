@@ -3,49 +3,46 @@ package utnlab5.Models;
 public class Game {
 
 
-    private String PalabraAEncontrar;
-    private String PalabraEnmascarada;
-    private String LetrasUsadas;
-    private int Turno;
+    private String WordToFind;
+    private String Mask;
+    private String UsedLetters;
     private boolean CanPlay;
 
-    public String getLetrasUsadas() {
-        return LetrasUsadas;
+    public String getUsedLetters() {
+        return UsedLetters;
     }
 
-    public String getPalabraAEncontrar() {
-        return PalabraAEncontrar;
+    public String getWordToFind() {
+        return WordToFind;
     }
 
+    public Game(String word) {
+        WordToFind = word;
+        Mask = "";
+        UsedLetters = "";
 
-    public Game(String palabra) {
-        PalabraAEncontrar = palabra;
-        PalabraEnmascarada = "";
-        LetrasUsadas = "";
-
-        for (int i = 0; i < palabra.length(); i++) {
-            PalabraEnmascarada+= '_';
+        for (int i = 0; i < word.length(); i++) {
+            Mask += '_';
         }
 
-        Turno = 0;
-        CanPlay = true;
+        CanPlay = false;
 
         System.out.println("Iniciando Juego: Ahorcado.");
-        System.out.println(String.format("Palabra a encontrar: %s (%s letras)", PalabraEnmascarada.toString(),PalabraEnmascarada.length()));
+        System.out.println(String.format("Palabra a encontrar: %s (%s letras)", Mask.toString(), Mask.length()));
 
     }
 
     public boolean Finished()
     {
-        return PalabraEnmascarada.compareTo( PalabraAEncontrar ) == 0;
+        return Mask.compareTo(WordToFind) == 0;
     }
 
 
 
-    public synchronized boolean Play (String nombre, char letra){
+    public synchronized boolean PlayTurn(String nombre, char letra){
 
 
-        //System.out.print(String.format("\n%s esta esperando su turno. Puede jugar: %s", nombre,CanPlay));
+        System.out.print(String.format("\n%s esta esperando...", nombre));
 
         while (!CanPlay) {
             try {
@@ -55,6 +52,7 @@ public class Game {
                 System.out.println(String.format("Thread interrupted %s", e));
             }
         }
+        System.out.print(String.format("\n%s puede jugar...", nombre));
 
         boolean success = false;
 
@@ -66,16 +64,18 @@ public class Game {
             System.out.print(String.format("\n%s juega con la letra '%s'. ", nombre, letra));
 
             //se testea la letra
-            success = ProbarLetra(letra);
+            success = TestLetter(letra);
 
             if (success) {
-                System.out.print(String.format("Letra '%s' encontrada: %s", letra, PalabraEnmascarada));
+                System.out.print(String.format("Letra '%s' encontrada: %s", letra, Mask));
 
             } else {
                 System.out.print(String.format("Letra '%s' no encontrada.", letra));
             }
 
-            CanPlay = true;
+            //CanPlay = true;
+
+
         }
 
         notifyAll();
@@ -85,43 +85,10 @@ public class Game {
     }
 
 
-    private boolean ProbarLetra ( char l)
-    {
 
-        LetrasUsadas+=l;
+    public synchronized void NextTurn(){
 
-        boolean success=false;
-
-        int index = -1;
-
-        do
-        {
-            index = PalabraAEncontrar.indexOf(l,index+1);
-
-            if(index > -1)
-            {
-                // se encontro la letra
-                success = true;
-
-                //reemplaza la letra en la mascara
-                StringBuilder str = new StringBuilder(PalabraEnmascarada);
-                str.setCharAt(index, l);
-
-                PalabraEnmascarada = str.toString();
-
-            }
-        }
-        while (index> -1);
-
-        return success;
-    }
-
-
-
-    public synchronized void PlayTest ()
-    {
-
-        while (!CanPlay) {
+        while (CanPlay) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -130,16 +97,45 @@ public class Game {
             }
         }
 
-        CanPlay = false;
-
-       // lo que tenga que hacer
-        //
-
         CanPlay = true;
+
+        System.out.print(String.format("\nEl GameMaster habilita al siguiente jugador..."));
+
         notifyAll();
 
     }
 
+
+    private boolean TestLetter(char l)
+    {
+
+        UsedLetters +=l;
+
+        boolean success=false;
+
+        int index = -1;
+
+        do
+        {
+            index = WordToFind.indexOf(l,index+1);
+
+            if(index > -1)
+            {
+                // se encontro la letra
+                success = true;
+
+                //reemplaza la letra en la mascara
+                StringBuilder str = new StringBuilder(Mask);
+                str.setCharAt(index, l);
+
+                Mask = str.toString();
+
+            }
+        }
+        while (index> -1);
+
+        return success;
+    }
 
 
 }

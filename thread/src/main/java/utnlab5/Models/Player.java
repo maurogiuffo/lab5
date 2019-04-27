@@ -10,8 +10,6 @@ public class Player implements Runnable{
     private int Aciertos;
     private Game Game;
     private String Letras;
-    //private int Turno;
-
 
     public String getNombre() {
         return Nombre;
@@ -45,7 +43,7 @@ public class Player implements Runnable{
             //toma la siguiente letra
             char l = GetLetter();
 
-            success = Game.Play(Nombre, l);
+            success = Game.PlayTurn(Nombre, l);
 
             if (!success) {
                 Vidas--;
@@ -73,7 +71,7 @@ public class Player implements Runnable{
 
             l = Letras.toCharArray()[rand.nextInt(Letras.length())];
             //chequea que no se haya usado
-            if (Game.getLetrasUsadas().indexOf(l) == -1) {
+            if (Game.getUsedLetters().indexOf(l) == -1) {
                 played = true;
             }
         }
