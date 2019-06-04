@@ -10,9 +10,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        List<Event> EventList ;//=  new ArrayList<Event>();
+        //List<Event> EventList =  new ArrayList<Event>();
 
-        EventList = Arrays.asList(
+        List<Event> EventList = Arrays.asList(
 
                 CreateEvent("Lollapalooza São Paulo","Brazil", "São Paulo"),
                 CreateEvent("Lollapalooza Stockholm","Sweden", "Stockholm"),

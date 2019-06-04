@@ -92,8 +92,9 @@ public class Game {
             try {
                 wait();
             } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                System.out.println(String.format("Thread interrupted %s", e));
+                {
+                    System.out.println(String.format("Thread interrupted %s", e));
+                }
             }
         }
 
