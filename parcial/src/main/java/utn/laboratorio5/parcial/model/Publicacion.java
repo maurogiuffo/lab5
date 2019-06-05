@@ -38,7 +38,6 @@ public class Publicacion {
     private String foto;
 
 
-    @NotNull
     private LocalDateTime fechaPublicacion;
 
     private Boolean liked;

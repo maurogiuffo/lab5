@@ -85,6 +85,8 @@ public class UsuarioController {
 
 
 
+
+
     //  publicaciones
 
     @GetMapping("/publicaciones")
@@ -95,8 +97,12 @@ public class UsuarioController {
     @PostMapping("/publicaciones")
     public void createPublicacion(@RequestBody @Valid final Publicacion p)
     {
+        p.setFechaPublicacion(LocalDateTime.now());
         publicacionRepository.save(p);
     }
+
+
+
     //comentarios
 
     @PostMapping("/comentarios")

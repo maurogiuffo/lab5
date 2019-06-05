@@ -29,7 +29,6 @@ public class Usuario {
     @NotNull
     private String apellido;
 
-    @NotNull
     private String browser;
 
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST,mappedBy = "usuario")
