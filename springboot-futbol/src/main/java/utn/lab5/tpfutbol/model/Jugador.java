@@ -12,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -26,6 +27,10 @@ public class Jugador {
     private Integer id;
     @NotNull
     private String nombre;
+
+    @NotNull
+    @Min(value = 18)
+    private Integer edad;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)

@@ -70,6 +70,7 @@ public class JugadoresController {
 
         Jugador j = new Jugador();
         j.setNombre(pj.getNombre());
+        j.setEdad(pj.getEdad());
         Equipo e = equiposRepository.findById(pj.getIdequipo()).orElseThrow( ()-> new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Equipo not found"));
         j.setEquipo(e);
         jugadoresRepository.save(j);
@@ -80,6 +81,7 @@ public class JugadoresController {
     {
         Jugador j = jugadoresRepository.findById(id).orElseThrow( ()-> new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Jugador not found"));
         j.setNombre(pj.getNombre());
+        j.setEdad(pj.getEdad());
         Equipo e = equiposRepository.findById(pj.getIdequipo()).orElseThrow( ()-> new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Equipo not found"));
         j.setEquipo(e);
 

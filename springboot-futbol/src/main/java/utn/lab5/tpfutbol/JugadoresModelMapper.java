@@ -21,6 +21,7 @@ public class JugadoresModelMapper {
             protected void configure() {
                 map().setId(source.getId());
                 map().setNombre(source.getNombre());
+                map().setEdad(source.getEdad());
                 map().setIdequipo(source.getEquipo().getId());
                 map().setNombreequipo(source.getEquipo().getNombre());
             }

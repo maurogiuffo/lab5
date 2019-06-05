@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 import utn.lab5.tpfutbol.model.Equipo;
@@ -16,6 +17,7 @@ import utn.lab5.tpfutbol.repository.EquiposRepository;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("equipos")
@@ -25,9 +27,12 @@ public class EquiposController {
     EquiposRepository equiposRepository;
 
     @GetMapping("")
-    public List<Equipo> list()
+    public List<Equipo> list(@RequestParam(required = false) final String nombre )
     {
-        return equiposRepository.findAll();
+        if(Objects.isNull(nombre) || nombre.isEmpty())
+            return equiposRepository.findAll();
+        else
+            return equiposRepository.findByName(nombre);
     }
 
     @GetMapping("/{id}")
