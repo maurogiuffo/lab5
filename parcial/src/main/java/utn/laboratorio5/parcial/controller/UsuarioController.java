@@ -16,8 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 import utn.laboratorio5.parcial.model.Comentario;
+import utn.laboratorio5.parcial.model.ComentarioDTO;
+import utn.laboratorio5.parcial.model.IPublicacionDTO;
 import utn.laboratorio5.parcial.model.Publicacion;
+import utn.laboratorio5.parcial.model.PublicacionDTO;
 import utn.laboratorio5.parcial.model.Usuario;
+import utn.laboratorio5.parcial.model.UsuarioDTO;
 import utn.laboratorio5.parcial.repository.ComentarioRepository;
 import utn.laboratorio5.parcial.repository.PublicacionRepository;
 import utn.laboratorio5.parcial.repository.UsuarioRepository;
@@ -61,20 +65,27 @@ public class UsuarioController {
 
     @PostMapping("/usuarios")
     public void create(@RequestHeader(value="User-Agent", defaultValue="foo") String userAgent,
-                       @RequestBody @Valid final Usuario pu)
+                       @RequestBody @Valid final UsuarioDTO pu)
     {
 
-        pu.setBrowser(userAgent);
-        usuarioRepository.save(pu);
+        Usuario u = new Usuario();
+        u.setNombre(pu.getNombre());
+        u.setApellido(pu.getApellido());
+        u.setBrowser(userAgent);
+        usuarioRepository.save(u);
     }
 
     @PutMapping("/usuarios/{id}")
     public void update(@PathVariable final Integer id,@RequestBody @Valid final Usuario pu)
     {
-       // Usuario u = usuarioRepository.findById(id)
-       //         .orElseThrow( ()-> new HttpClientErrorException(HttpStatus.BAD_REQUEST,"usuario not found"));
+       Usuario u = usuarioRepository.findById(id)
+               .orElseThrow( ()-> new HttpClientErrorException(HttpStatus.BAD_REQUEST,"usuario not found"));
 
-        usuarioRepository.save(pu);
+       u.setApellido(pu.getApellido());
+       u.setNombre(pu.getNombre());
+       u.setBrowser(pu.getBrowser());
+       usuarioRepository.save(u);
+
     }
 
     @DeleteMapping("/usuarios/{id}")
@@ -90,26 +101,44 @@ public class UsuarioController {
     //  publicaciones
 
     @GetMapping("/publicaciones")
-    public List<Publicacion> getPublicaciones() {
-        return publicacionRepository.findAll();
+    public List<IPublicacionDTO> getPublicaciones() {
+        return publicacionRepository.findAllWithUsuario();
     }
 
     @PostMapping("/publicaciones")
-    public void createPublicacion(@RequestBody @Valid final Publicacion p)
+    public void createPublicacion(@RequestBody @Valid final PublicacionDTO pdto)
     {
+
+        Publicacion p = new Publicacion();
+        p.setTitulo(pdto.getTitulo());
+        p.setDescripcion(pdto.getDescripcion());
+        p.setUsuario(usuarioRepository.findById(pdto.getIdusuario()).orElseThrow(()-> new HttpClientErrorException(HttpStatus.NOT_FOUND,"usuario not found")));
+        p.setFoto(pdto.getFoto());
         p.setFechaPublicacion(LocalDateTime.now());
         publicacionRepository.save(p);
     }
+
+
+    @DeleteMapping("/publicaciones/{id}")
+    public void deletePublicacion(@PathVariable final Integer id)
+    {
+        publicacionRepository.deleteById(id);
+    }
+
 
 
 
     //comentarios
 
     @PostMapping("/comentarios")
-    public void createComentario(@RequestBody @Valid final Comentario pc)
+    public void createComentario(@RequestBody @Valid final ComentarioDTO cDTO)
     {
-        comentarioRepository.save(pc);
-
+        Comentario c = new Comentario();
+        c.setDescripcion(cDTO.getDescripcion());
+        c.setUsuario(usuarioRepository.findById(cDTO.getIdusuario()).orElseThrow(()-> new HttpClientErrorException(HttpStatus.NOT_FOUND,"usuario not found")));
+        c.setPublicacion(publicacionRepository.findById(cDTO.getIdpublicacion()).orElseThrow(()-> new HttpClientErrorException(HttpStatus.NOT_FOUND,"publicacion not found")));
+        c.setFecha(LocalDateTime.now());
+        comentarioRepository.save(c);
     }
 
     @DeleteMapping("/comentarios/{id}")

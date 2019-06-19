@@ -11,36 +11,29 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Comentario {
-    @Id
-    @GeneratedValue
+public class ComentarioDTO {
+
     private Integer id;
+
+    @NotNull
+    private Integer idusuario;
+
+    @NotNull
+    private Integer idpublicacion;
 
     @NotNull
     private String descripcion;
 
-    @NotNull
+
     private LocalDateTime fecha;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
-    @JsonBackReference
-    @JoinColumn(name = "idusuario", referencedColumnName = "id")
-    private Usuario usuario;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "idpublicacion", referencedColumnName = "id")
-    @JsonBackReference
-    private Publicacion publicacion;
 
 }
