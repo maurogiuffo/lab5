@@ -31,9 +31,6 @@ public class ComentarioDTO {
     @NotNull
     private String descripcion;
 
-
     private LocalDateTime fecha;
-
-
 
 }

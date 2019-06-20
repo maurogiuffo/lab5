@@ -17,12 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 import utn.laboratorio5.parcial.model.Comentario;
 import utn.laboratorio5.parcial.model.ComentarioDTO;
+import utn.laboratorio5.parcial.model.ComentarioUsuarioDTO;
 import utn.laboratorio5.parcial.model.IPublicacionDTO;
 import utn.laboratorio5.parcial.model.Publicacion;
 import utn.laboratorio5.parcial.model.PublicacionDTO;
 import utn.laboratorio5.parcial.model.Usuario;
 import utn.laboratorio5.parcial.model.UsuarioDTO;
 import utn.laboratorio5.parcial.repository.ComentarioRepository;
+import utn.laboratorio5.parcial.repository.ComentarioUsuarioRepository;
 import utn.laboratorio5.parcial.repository.PublicacionRepository;
 import utn.laboratorio5.parcial.repository.UsuarioRepository;
 
@@ -48,6 +50,8 @@ public class UsuarioController {
     @Autowired
     ComentarioRepository comentarioRepository;
 
+    @Autowired
+    ComentarioUsuarioRepository comentarioUsuarioRepository;
 
     @GetMapping("/usuarios")
     public List<Usuario> getUsuarios()
@@ -76,16 +80,14 @@ public class UsuarioController {
     }
 
     @PutMapping("/usuarios/{id}")
-    public void update(@PathVariable final Integer id,@RequestBody @Valid final Usuario pu)
+    public void update(@PathVariable final Integer id,@RequestBody @Valid final UsuarioDTO pu)
     {
        Usuario u = usuarioRepository.findById(id)
                .orElseThrow( ()-> new HttpClientErrorException(HttpStatus.BAD_REQUEST,"usuario not found"));
 
        u.setApellido(pu.getApellido());
        u.setNombre(pu.getNombre());
-       u.setBrowser(pu.getBrowser());
        usuarioRepository.save(u);
-
     }
 
     @DeleteMapping("/usuarios/{id}")
@@ -146,6 +148,13 @@ public class UsuarioController {
     {
         comentarioRepository.deleteById(id);
     }
+
+    @GetMapping("/comentarios/{idusuario}")
+    public List<ComentarioUsuarioDTO> listComentariosUsuario(@PathVariable final Integer idusuario)
+    {
+        return comentarioUsuarioRepository.findAllByIdUsuario(idusuario);
+    }
+
 
 
     // autodelete comentarios
