@@ -10,10 +10,9 @@ import java.util.concurrent.CompletableFuture;
 public class PublicacionService {
 
     @Async("threadPoolTaskExecutor")
-    public CompletableFuture<Integer> Count()
+    public CompletableFuture<Integer> Count(String id)
     {
-
-        System.out.println("Count operation started at " + LocalDateTime.now());
+        System.out.println(String.format( "Count(%s) operation started at %s",id ,LocalDateTime.now()));
 
         Integer qty=0;
 
@@ -22,10 +21,11 @@ public class PublicacionService {
                 qty += i.toString().split("0").length;
         }
 
-        System.out.println("Count operation finished at " + LocalDateTime.now());
+        System.out.println(String.format( "Count(%s) operation finished at %s",id ,LocalDateTime.now()));
 
         return CompletableFuture.completedFuture(qty);
     }
+
 
     @Async("threadPoolTaskExecutor")
     public CompletableFuture<Integer> Sum()

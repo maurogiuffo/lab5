@@ -197,10 +197,13 @@ public class UsuarioController {
     {
         Integer result =0;
 
-        CompletableFuture<Integer> result1 = publicacionService.Count();
-        CompletableFuture<Integer> result2 = publicacionService.Sum();
+        CompletableFuture<Integer> result1 = publicacionService.Count("id-1");
+        CompletableFuture<Integer> result2 = publicacionService.Count("id-2");
+        CompletableFuture<Integer> result3 = publicacionService.Count("id-3");
 
-        result = result1.join() + result2.join();
+        CompletableFuture<Integer> result4 = publicacionService.Sum();
+
+        result = result1.join() + result2.join() + result3.join() + result4.join()  ;
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(result);

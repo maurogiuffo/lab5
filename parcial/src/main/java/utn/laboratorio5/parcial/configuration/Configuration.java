@@ -14,7 +14,10 @@ public class Configuration {
 
     @Value("${CORE_POOL_SIZE}")
     Integer CORE_POOL_SIZE ;
-    Integer MAX_POOL_SIZE = 10;
+
+    @Value("${MAX_POOL_SIZE}")
+    Integer MAX_POOL_SIZE ;
+
     Integer QUEUE_SIZE = 100;
 
 
