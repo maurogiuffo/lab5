@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,12 +28,14 @@ import utn.laboratorio5.parcial.repository.ComentarioRepository;
 import utn.laboratorio5.parcial.repository.ComentarioUsuarioRepository;
 import utn.laboratorio5.parcial.repository.PublicacionRepository;
 import utn.laboratorio5.parcial.repository.UsuarioRepository;
+import utn.laboratorio5.parcial.service.PublicacionService;
 
 import javax.validation.Valid;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 
@@ -52,6 +55,9 @@ public class UsuarioController {
 
     @Autowired
     ComentarioUsuarioRepository comentarioUsuarioRepository;
+
+    @Autowired
+    PublicacionService publicacionService;
 
     @GetMapping("/usuarios")
     public List<Usuario> getUsuarios()
@@ -130,6 +136,7 @@ public class UsuarioController {
 
 
 
+
     //comentarios
 
     @PostMapping("/comentarios")
@@ -180,6 +187,23 @@ public class UsuarioController {
                 comentarioRepository.delete(p);
             });
         }
+    }
+
+
+
+    // ThreadPoolExcutor
+    @GetMapping("/publicaciones/async")
+    public ResponseEntity<?> async()
+    {
+        Integer result =0;
+
+        CompletableFuture<Integer> result1 = publicacionService.Count();
+        CompletableFuture<Integer> result2 = publicacionService.Sum();
+
+        result = result1.join() + result2.join();
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(result);
     }
 
 }
