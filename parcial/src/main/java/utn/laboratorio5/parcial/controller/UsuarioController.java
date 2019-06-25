@@ -19,7 +19,10 @@ import org.springframework.web.client.HttpClientErrorException;
 import utn.laboratorio5.parcial.model.Comentario;
 import utn.laboratorio5.parcial.model.ComentarioDTO;
 import utn.laboratorio5.parcial.model.ComentarioUsuarioDTO;
+import utn.laboratorio5.parcial.model.IComentario;
 import utn.laboratorio5.parcial.model.IPublicacionDTO;
+import utn.laboratorio5.parcial.model.IUsuario;
+import utn.laboratorio5.parcial.model.ListadosDTO;
 import utn.laboratorio5.parcial.model.Publicacion;
 import utn.laboratorio5.parcial.model.PublicacionDTO;
 import utn.laboratorio5.parcial.model.PublicacionDueñoComentarios;
@@ -112,20 +115,6 @@ public class UsuarioController {
 
 
     //  publicaciones
-
-    //para parcial 2
-    @GetMapping("/publicaciones")
-    public List<IPublicacionDTO> getPublicaciones() {
-        return publicacionRepository.findAllWithUsuario();
-    }
-
-
-    //para parcial 2
-    @GetMapping("/publicaciones2")
-    public List<PublicacionDueñoComentarios> getPublicaciones2() {
-        return publicacionDueñoComentariosRepository.findAllWithUsuario();
-    }
-
 
 
 
@@ -228,5 +217,44 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(result);
     }
+
+
+
+
+
+
+    //*********  parcial 2  ************************************
+
+
+
+    @GetMapping("/publicaciones")
+    public List<IPublicacionDTO> getPublicaciones() {
+        return publicacionRepository.findAllWithUsuario();
+    }
+
+
+    @GetMapping("/publicaciones2")
+    public List<PublicacionDueñoComentarios> getPublicaciones2() {
+        return publicacionDueñoComentariosRepository.findAllWithUsuario();
+    }
+
+    @GetMapping("/allcontent")
+    public ResponseEntity<?> allcontent() {
+
+
+        CompletableFuture<List<IUsuario>> ListaUsuarios = publicacionService.ListaUsuarios();
+        CompletableFuture<List<IPublicacionDTO>> ListaPublicaciones = publicacionService.ListaPublicaciones();
+        CompletableFuture<List<IComentario>> ListaComentarios = publicacionService.ListaComentarios();
+
+        ListadosDTO listados= new ListadosDTO();
+
+        listados.setUsuarios(ListaUsuarios.join());
+        listados.setComentarios(ListaComentarios.join());
+        listados.setPublicaciones(ListaPublicaciones.join());
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(listados);
+    }
+
 
 }

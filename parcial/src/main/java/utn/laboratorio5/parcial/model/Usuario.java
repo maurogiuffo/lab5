@@ -1,5 +1,6 @@
 package utn.laboratorio5.parcial.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,6 +31,7 @@ public class Usuario {
     private String apellido;
 
     private String browser;
+
 
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST,mappedBy = "usuario")
     @JsonManagedReference
