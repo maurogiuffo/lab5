@@ -34,12 +34,27 @@ public class PublicacionService {
     @Async("threadPoolTaskExecutor")
     public CompletableFuture<List<IUsuario>> ListaUsuarios()
     {
+        try{
+            Thread.sleep(2000);
+        }
+        catch (InterruptedException e)
+        {
+
+        }
+
         return CompletableFuture.completedFuture(usuarioRepository.findNombres());
     }
 
     @Async("threadPoolTaskExecutor")
     public CompletableFuture<List<IPublicacionDTO>> ListaPublicaciones()
     {
+        try{
+            Thread.sleep(2000);
+        }
+        catch (InterruptedException e)
+        {
+
+        }
         return CompletableFuture.completedFuture(publicacionRepository.findAllWithUsuario());
     }
 
@@ -47,6 +62,14 @@ public class PublicacionService {
     @Async("threadPoolTaskExecutor")
     public CompletableFuture<List<IComentario>> ListaComentarios()
     {
+        try{
+            Thread.sleep(2000);
+        }
+        catch (InterruptedException e)
+        {
+
+        }
+
         return CompletableFuture.completedFuture(comentarioRepository.findDescripcion());
     }
 
