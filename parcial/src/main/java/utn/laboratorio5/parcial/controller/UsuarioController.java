@@ -22,10 +22,12 @@ import utn.laboratorio5.parcial.model.ComentarioUsuarioDTO;
 import utn.laboratorio5.parcial.model.IPublicacionDTO;
 import utn.laboratorio5.parcial.model.Publicacion;
 import utn.laboratorio5.parcial.model.PublicacionDTO;
+import utn.laboratorio5.parcial.model.PublicacionDueñoComentarios;
 import utn.laboratorio5.parcial.model.Usuario;
 import utn.laboratorio5.parcial.model.UsuarioDTO;
 import utn.laboratorio5.parcial.repository.ComentarioRepository;
 import utn.laboratorio5.parcial.repository.ComentarioUsuarioRepository;
+import utn.laboratorio5.parcial.repository.PublicacionDueñoComentariosRepository;
 import utn.laboratorio5.parcial.repository.PublicacionRepository;
 import utn.laboratorio5.parcial.repository.UsuarioRepository;
 import utn.laboratorio5.parcial.service.PublicacionService;
@@ -55,6 +57,9 @@ public class UsuarioController {
 
     @Autowired
     ComentarioUsuarioRepository comentarioUsuarioRepository;
+
+    @Autowired
+    PublicacionDueñoComentariosRepository publicacionDueñoComentariosRepository;
 
     @Autowired
     PublicacionService publicacionService;
@@ -108,10 +113,21 @@ public class UsuarioController {
 
     //  publicaciones
 
+    //para parcial 2
     @GetMapping("/publicaciones")
     public List<IPublicacionDTO> getPublicaciones() {
         return publicacionRepository.findAllWithUsuario();
     }
+
+
+    //para parcial 2
+    @GetMapping("/publicaciones2")
+    public List<PublicacionDueñoComentarios> getPublicaciones2() {
+        return publicacionDueñoComentariosRepository.findAllWithUsuario();
+    }
+
+
+
 
     @PostMapping("/publicaciones")
     public void createPublicacion(@RequestBody @Valid final PublicacionDTO pdto)
@@ -162,7 +178,11 @@ public class UsuarioController {
         return comentarioUsuarioRepository.findAllByIdUsuario(idusuario);
     }
 
-
+    @GetMapping("/comentarios/")
+    public List<ComentarioUsuarioDTO> listComentariosUsuario(@RequestBody final UsuarioDTO usuario)
+    {
+        return comentarioUsuarioRepository.findAllByNombreorApellido(usuario.getNombre(),usuario.getApellido());
+    }
 
     // autodelete comentarios
     @Value("${autdeletecomentariostime}")

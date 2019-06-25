@@ -12,8 +12,17 @@ import java.util.List;
 @Repository
 public interface ComentarioUsuarioRepository extends JpaRepository<ComentarioUsuarioDTO,Integer> {
 
-    String QUERY = "select id,descripcion as comentario from comentario where idusuario= :idusuario ";
+    String QUERY = "select id,descripcion as comentario from comentario where idusuario = :idusuario ";
 
     @Query(value = QUERY,nativeQuery = true)
     public List<ComentarioUsuarioDTO> findAllByIdUsuario(@Param("idusuario") Integer idusuario);
+
+    String QUERY2 = "select c.id,descripcion as comentario from comentario c " +
+            "inner join usuario u on u.id= c.idusuario " +
+            "where apellido = :apellido or nombre = :nombre";
+
+
+    @Query(value = QUERY2,nativeQuery = true)
+    public List<ComentarioUsuarioDTO> findAllByNombreorApellido( @Param("nombre") String nombre,
+                                                                 @Param("apellido") String apellido);
 }
