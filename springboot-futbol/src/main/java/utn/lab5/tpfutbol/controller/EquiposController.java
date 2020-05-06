@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 import utn.lab5.tpfutbol.model.Equipo;
@@ -42,6 +43,7 @@ public class EquiposController {
     }
 
     @PostMapping("")
+    @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody @Valid final Equipo equipo)
     {
         equiposRepository.save(equipo);
@@ -49,6 +51,7 @@ public class EquiposController {
 
 
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public void update(@PathVariable final Integer id, @RequestBody @Valid final Equipo pe)
     {
         Equipo e = equiposRepository.findById(id).orElseThrow( ()-> new HttpClientErrorException(HttpStatus.BAD_REQUEST,"Equipo not found."));
@@ -58,6 +61,7 @@ public class EquiposController {
 
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public void delete(@PathVariable final Integer id)
     {
         equiposRepository.deleteById(id);
